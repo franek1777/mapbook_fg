@@ -12,6 +12,7 @@ def main():
         print('2 - dodaj nowego znajomego')
         print('3 - usuń znajomego')
         print('4 - edytuj znajomego')
+        print('5 - wygeneruj mapę')
         print('==========================')
         choice = input('wybierz opcję MENU: ')
         if choice == '0': break
@@ -19,6 +20,7 @@ def main():
         if choice == '2': add_user(users)
         if choice == '3': remove_user(users)
         if choice == '4': edit_user(users)
+        if choice == '5': get_map(users)
 
 
 if __name__ == '__main__':

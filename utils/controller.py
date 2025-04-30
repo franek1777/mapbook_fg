@@ -24,3 +24,23 @@ def edit_user(users_data: list) -> None:
             user['name'] = input('podaj nowe imie: ')
             user['location'] = input('podaj nową lokalizacje: ')
             user['posts'] = input('podaj nową liczbę postów: ')
+
+            def get_cordinates(city: str) -> list:
+                import requests
+                from bs4 import BeautifulSoup
+                url = f'https://pl.wikipedia.org/wiki/{city}'
+                response = requests.get(url).text
+                response_html = BeautifulSoup(response, 'html.parser')
+                longitude = float(response_html.select('.longitude')[1].text.replace(',', '.'))
+                latitude = float(response_html.select('.latitude')[1].text.replace(',', '.'))
+                print(longitude, latitude)
+                return latitude, longitude
+
+            def get_map(users_data: list) -> None:
+                import folium
+                map = folium.Map(location=(52.23, 21.00), zoom_start=6)
+
+                for user in users:
+                    cordinates = get_cordinates(user['location'])
+                    folium.Marker(location=cordinates, popup=f'{user['location']}<br/>{user['name']}').add_to(map)
+                map.save('mapa.html')
